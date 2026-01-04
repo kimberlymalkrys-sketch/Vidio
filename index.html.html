@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mencuri Raden Saleh - Vidio Cinema+</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #c62828 0%, #8b0000 100%);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .movie-hero {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(26,26,26,1)), 
+                        linear-gradient(135deg, #444, #222);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+        }
+        
+        .movie-details {
+            max-width: 1200px;
+            margin: -100px auto 0;
+            padding: 0 30px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .poster-card {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .poster {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, #555, #333);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+        
+        .info-section {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .movie-title {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .movie-meta {
+            display: flex;
+            gap: 30px;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .rating .stars {
+            color: #ffd700;
+        }
+        
+        .rating .score {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        .synopsis {
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 30px;
+        }
+        
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .tag {
+            background: rgba(198, 40, 40, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid #c62828;
+            color: #ff5252;
+        }
+        
+        .schedule-section {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #fff;
+        }
+        
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .time-slot {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #3a3a3a;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-slot:hover {
+            border-color: #c62828;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.3);
+        }
+        
+        .time-slot.selected {
+            border-color: #4caf50;
+            background: linear-gradient(145deg, #1b5e20, #2e7d32);
+        }
+        
+        .time {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .date {
+            color: #aaa;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .seats {
+            color: #4caf50;
+            font-size: 12px;
+        }
+        
+        .price-tag {
+            background: #c62828;
+            padding: 5px 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .watch-party {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .party-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .party-card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #3a3a3a;
+            transition: all 0.3s;
+        }
+        
+        .party-card:hover {
+            border-color: #c62828;
+            transform: translateY(-3px);
+        }
+        
+        .party-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #ff5252;
+        }
+        
+        .party-card p {
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .party-features {
+            list-style: none;
+            color: #ccc;
+        }
+        
+        .party-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .party-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .party-features li:before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #c62828, #8b0000);
+            color: #fff;
+            padding: 18px 50px;
+            font-size: 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(198, 40, 40, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            padding: 18px 50px;
+            font-size: 18px;
+            border: 2px solid #c62828;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .btn-secondary:hover {
+            background: #c62828;
+        }
+        
+        .cinema-mode {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .mode-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: start;
+            gap: 15px;
+        }
+        
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #c62828, #8b0000);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .feature-text h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        
+        .feature-text p {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .reviews {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .review-list {
+            margin-top: 30px;
+        }
+        
+        .review-item {
+            background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #3a3a3a;
+        }
+        
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #c62828, #8b0000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .reviewer-info h5 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .reviewer-info .date {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .review-rating {
+            color: #ffd700;
+            font-size: 18px;
+        }
+        
+        .review-text {
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            background: #0d0d0d;
+            padding: 40px 30px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">Vidio Cinema+</div>
+            <ul class="nav-links">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#fitur">Fitur</a></li>
+                <li><a href="#box-office">Box Office</a></li>
+                <li><a href="#loyalty">Loyalty</a></li>
+                <li><a href="#login">Masuk</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="movie-hero">
+        🎭
+    </div>
+
+    <div class="movie-details">
+        <div class="detail-grid">
+            <div class="poster-card">
+                <div class="poster">🎭</div>
+            </div>
+            
+            <div class="info-section">
+                <h1 class="movie-title">Mencuri Raden Saleh</h1>
+                <div class="movie-meta">
+                    <span>🎬 2024</span>
+                    <span>⏱️ 154 menit</span>
+                    <span>🎭 Drama, Thriller</span>
+                    <span>🔞 17+</span>
+                </div>
+                
+                <div class="rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="score">8.5/10</span>
+                    <span style="color: #888; font-size: 16px;">(12,543 votes)</span>
+                </div>
+                
+                <p class="synopsis">
+                    Saksikan pencurian karya seni paling berani dalam sejarah Indonesia! Sekelompok mahasiswa merencanakan pencurian lukisan Raden Saleh yang legendaris dari Istana Presiden. Film ini menggabungkan ketegangan thriller dengan drama yang menyentuh tentang idealisme, persahabatan, dan perjuangan melawan sistem yang korup. Diangkat dari kisah nyata yang mengguncang Indonesia di era 2000-an.
+                </p>
+                
+                <div class="tags">
+                    <span class="tag">Hidden Gems</span>
+                    <span class="tag">Trending</span>
+                    <span class="tag">Based on True Story</span>
+                    <span class="tag">Award Winner</span>
+                </div>
+                
+                <div style="background: rgba(198,40,40,0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #c62828;">
+                    <strong style="color: #ff5252;">💎 Hidden Gems Spotlight:</strong><br>
+                    <span style="color: #aaa;">Film ini dinominasikan untuk 12 Piala Citra dan memenangkan Best Director. Jangan sampai melewatkan masterpiece lokal yang satu ini!</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-section">
+            <h2 class="section-title">🎟️ Jadwal Premiere Hari Ini</h2>
+            <p style="color: #aaa; margin-bottom: 30px;">Pilih waktu yang sesuai untuk Anda. Harga hanya Rp 8.000 - 1/5 dari harga bioskop!</p>
+            <div class="schedule-grid">
+                <div class="time-slot">
+                    <div class="time">13:00</div>
+                    <div class="date">Minggu, 4 Jan 2026</div>
+                    <div class="seats">✓ 45 kursi tersisa</div>
+                    <div class="price-tag">Rp 8.000</div>
+                </div>
+                <div class="time-slot selected">
+                    <div class="time">16:30</div>
+                    <div class="date">Minggu, 4 Jan 2026</div>
+                    <div class="seats">✓ 12 kursi tersisa</div>
+                    <div class="price-tag">Rp 8.000</div>
+                </div>
+                <div class="time-slot">
+                    <div class="time">19:00</div>
+                    <div class="date">Minggu, 4 Jan 2026</div>
+                    <div class="seats">✓ 67 kursi tersisa</div>
+                    <div class="price-tag">Rp 8.000</div>
+                </div>
+                <div class="time-slot">
+                    <div class="time">21:30</div>
+                    <div class="date">Minggu, 4 Jan 2026</div>
+                    <div class="seats">✓ 89 kursi tersisa</div>
+                    <div class="price-tag">Rp 8.000</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="watch-party">
+            <h2 class="section-title">👥 Watch Party Options</h2>
+            <p style="color: #aaa; margin-bottom: 10px;">Nonton bareng teman secara virtual dengan fitur interaktif yang seru!</p>
+            <div class="party-options">
+                <div class="party-card">
+                    <h3>🎉 Create Party</h3>
+                    <p>Buat room sendiri dan ajak teman untuk nonton bareng</p>
+                    <ul class="party-features">
+                        <li>Kapasitas hingga 50 orang</li>
+                        <li>Live chat & emoji reactions</li>
+                        <li>Vote rating bersama</li>
+                        <li>Audio sync sempurna</li>
+                        <li>Screen control untuk host</li>
+                    </ul>
+                </div>
+                <div class="party-card">
+                    <h3>🔍 Join Party</h3>
+                    <p>Gabung dengan party yang sudah ada</p>
+                    <ul class="party-features">
+                        <li>Browse public parties</li>
+                        <li>Filter berdasarkan waktu</li>
+                        <li>Lihat jumlah peserta</li>
+                        <li>Join dengan kode invite</li>
+                        <li>Meet new friends!</li>
+                    </ul>
+                </div>
+                <div class="party-card">
+                    <h3>⚡ Quick Match</h3>
+                    <p>Sistem otomatis carikan party untuk Anda</p>
+                    <ul class="party-features">
+                        <li>Match berdasarkan preferensi</li>
+                        <li>Instant join tanpa ribet</li>
+                        <li>Aman & moderated</li>
+                        <li>Party size optimal</li>
+                        <li>Experience komunal instan</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cinema-mode">
+            <h2 class="section-title">🎬 Cinema Mode Features</h2>
+            <p style="color: #aaa; margin-bottom: 10px;">Pengalaman menonton premium dengan teknologi terdepan</p>
+            <div class="mode-features">
+                <div class="feature-item">
+                    <div class="feature-icon">🎵</div>
+                    <div class="feature-text">
+                        <h4>Audio Boost</h4>
+                        <p>Kualitas suara yang ditingkatkan untuk pengalaman sinematik yang lebih immersive</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-text">
+                        <h4>Smart Subtitle</h4>
+                        <p>Subtitle yang dapat disesuaikan ukuran, posisi, dan timing-nya sesuai kebutuhan</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-text">
+                        <h4>Anti-Buffering</h4>
+                        <p>Streaming adaptif yang menjamin kelancaran tanpa gangguan buffering</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-text">
+                        <h4>Multi-Device Sync</h4>
+                        <p>Lanjutkan menonton dari device mana saja dengan progress tersinkronisasi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="reviews">
+            <h2 class="section-title">⭐ Review Penonton</h2>
+            <div class="review-list">
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="avatar">👤</div>
+                            <div class="reviewer-info">
+                                <h5>Andi Wijaya</h5>
+                                <p class="date">3 hari yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <p class="review-text">
+                        Masterpiece! Ceritanya sangat engaging dari awal sampai akhir. Acting para pemainnya luar biasa, terutama di adegan climax. Worth every penny! Watch Party feature bikin nonton jadi lebih seru bareng teman-teman.
+                    </p>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="avatar">👤</div>
+                            <div class="reviewer-info">
+                                <h5>Siti Rahmawati</h5>
+                                <p class="date">5 hari yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐⭐</div>
+                    </div>
+                    <p class="review-text">
+                        Salah satu film Indonesia terbaik yang pernah saya tonton! Sinematografinya keren banget, soundtrack-nya pas, dan twist endingnya nggak terduga. Harga Rp 8.000 ini steal banget, lebih murah dari beli kopi tapi entertainment-nya jauh lebih worth it.
+                    </p>
+                </div>
+                <div class="review-item">
+                    <div class="review-header">
+                        <div class="reviewer">
+                            <div class="avatar">👤</div>
+                            <div class="reviewer-info">
+                                <h5>Budi Santoso</h5>
+                                <p class="date">1 minggu yang lalu</p>
+                            </div>
+                        </div>
+                        <div class="review-rating">⭐⭐⭐⭐</div>
+                    </div>
+                    <p class="review-text">
+                        Film yang powerful dan menginspirasi. Mengangkat isu sosial dengan cara yang smart. Cinema Mode-nya mantap, audio boost bikin suasana makin hidup. Recommended banget untuk yang suka film dengan depth!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn-primary">🎬 Booking Sekarang - Rp 8.000</button>
+            <button class="btn-secondary">📋 Tambah ke Watchlist</button>
+        </div>
+
+        <div style="background: linear-gradient(145deg, #2a2a2a, #1f1f1f); padding: 30px; border-radius: 15px; margin-top: 40px; border: 1px solid #3a3a3a; text-align: center;">
+            <h3 style="margin-bottom: 15px; color: #ff5252;">🎁 Dapatkan 3 Poin Loyalty!</h3>
+            <p style="color: #aaa;">Tonton film ini dan kumpulkan poin untuk ditukar dengan voucher belanja atau tiket gratis. Tier Gold Anda akan mendapat 9 poin!</p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Vidio Cinema+ by Emtek. Lebih Dari Hiburan.</p>
+        <p>Nonton Film, Series, dan Olahraga dengan Harga Terjangkau</p>
+    </footer>
+</body>
+</html>
